@@ -3,115 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gasty Store - Bazar & Accesorios</title>
+  <title>Gasty Store</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background: #f7f7f7;
+      font-family: Arial, sans-serif;
+      background-color: #FFFFF0; /* Marfil */
       color: #333;
     }
     header {
-      background: #222;
-      color: #fff;
+      background-color: #87CEEB; /* Azul cielo */
+      color: white;
       padding: 20px;
       text-align: center;
     }
-    nav {
-      background: #444;
-      padding: 10px;
-      text-align: center;
+    header h1 {
+      margin: 0;
+      font-size: 2em;
     }
-    nav a {
-      color: #fff;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
+    header p {
+      margin: 5px 0 0;
     }
-    .container {
-      width: 90%;
-      margin: 20px auto;
+    .productos {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
+      padding: 20px;
     }
     .card {
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
       text-align: center;
+      padding: 15px;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
     }
     .card img {
-      max-width: 100%;
-      border-radius: 5px;
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .card h3 {
+      margin: 10px 0 5px;
+      color: #4682B4; /* Azul cielo */
+    }
+    .precio {
+      font-size: 18px;
+      color: #FF69B4; /* Rosa */
+      font-weight: bold;
     }
     .btn {
       display: inline-block;
       margin-top: 10px;
       padding: 10px 15px;
-      background: #e91e63;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
+      background: #FF69B4; /* Rosa */
+      color: white;
       text-decoration: none;
+      border-radius: 6px;
       font-weight: bold;
     }
+    .btn:hover {
+      background: #4682B4; /* Azul cielo */
+    }
     footer {
+      background-color: #87CEEB; /* Azul cielo */
+      color: white;
       text-align: center;
-      background: #222;
-      color: #fff;
       padding: 15px;
-      margin-top: 20px;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>Gasty Store</h1>
-    <p>Bazar • Accesorios de celulares • Cosmética • Aromatizantes</p>
+    <h1>✨ Gasty Store ✨</h1>
+    <p>Decoración y estilo para tu hogar</p>
+    <p>📞 WhatsApp: 11 2718 6865</p>
   </header>
 
-  <nav>
-    <a href="#">Inicio</a>
-    <a href="#">Tienda</a>
-    <a href="#">Nosotros</a>
-    <a href="#">Contacto</a>
-  </nav>
-
-  <section class="container">
-    <!-- Producto 1 -->
+  <section class="productos">
     <div class="card">
-      <img src="https://via.placeholder.com/250" alt="Organizador">
-      <h3>Organizador de maquillaje</h3>
-      <p>$4.500</p>
-      <a href="https://wa.me/5491127186865" target="_blank" class="btn">Comprar por WhatsApp</a>
+      <img src="Lampara 2 pisos.jpeg" alt="Lámpara 2 pisos">
+      <h3>Lámpara Mandarina 2 Pisos</h3>
+      <p class="precio">$32.000</p>
+      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%202%20pisos" class="btn">Comprar</a>
     </div>
 
-    <!-- Producto 2 -->
     <div class="card">
-      <img src="https://via.placeholder.com/250" alt="Vincha">
-      <h3>Vincha de toalla</h3>
-      <p>$2.000</p>
-      <a href="https://wa.me/5491127186865" target="_blank" class="btn">Comprar por WhatsApp</a>
+      <img src="Lampara base blanca.jpeg" alt="Lámpara base blanca">
+      <h3>Lámpara Base Blanca</h3>
+      <p class="precio">$32.000</p>
+      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Base%20Blanca" class="btn">Comprar</a>
     </div>
 
-    <!-- Producto 3 -->
     <div class="card">
-      <img src="https://via.placeholder.com/250" alt="Iluminador">
-      <h3>Iluminador cosmético</h3>
-      <p>$3.200</p>
-      <a href="https://wa.me/5491127186865" target="_blank" class="btn">Comprar por WhatsApp</a>
+      <img src="Lampara base madera.jpeg" alt="Lámpara base madera">
+      <h3>Lámpara Base Madera</h3>
+      <p class="precio">$34.000</p>
+      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Base%20Madera" class="btn">Comprar</a>
+    </div>
+
+    <div class="card">
+      <img src="Lampara Hongo base redonda.jpeg" alt="Lámpara hongo base redonda">
+      <h3>Lámpara Hongo Base Redonda</h3>
+      <p class="precio">$32.000</p>
+      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Hongo%20Base%20Redonda" class="btn">Comprar</a>
+    </div>
+
+    <div class="card">
+      <img src="Lampara meduza.jpeg" alt="Lámpara meduza">
+      <h3>Lámpara Meduza</h3>
+      <p class="precio">$32.000</p>
+      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Meduza" class="btn">Comprar</a>
+    </div>
+
+    <div class="card">
+      <img src="Lampara redonda base madera.jpeg" alt="Lámpara redonda base madera">
+      <h3>Lámpara Redonda Base Madera</h3>
+      <p class="precio">$34.000</p>
+      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Redonda%20Base%20Madera" class="btn">Comprar</a>
     </div>
   </section>
 
   <footer>
-    <p>📍 Av. Corrientes 4927 - CABA | 📱 WhatsApp: +54 9 11 2718 6865</p>
-    <p>&copy; 2025 Gasty Store - Todos los derechos reservados</p>
+    <p>© 2025 Gasty Store - Todos los derechos reservados</p>
   </footer>
-
 </body>
 </html>
 
