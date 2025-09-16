@@ -1,497 +1,232 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Gasty Store</title>
-<style>
-  :root{
-    --marfil: #FFFFF0;
-    --azul: #87CEEB;
-    --rosa: #FF69B4;
-    --azul-oscuro: #4682B4;
-    --texto: #333;
-  }
-  *{box-sizing: border-box;}
-  body{
-    margin:0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: var(--marfil);
-    color: var(--texto);
-    -webkit-font-smoothing:antialiased;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gasty Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+    }
 
-  /* ----- PORTADA (COLLAGE FULLSCREEN) ----- */
-  .portada {
-    position: relative;
-    height: 100vh; /* pantalla completa */
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 1fr;
-    gap:6px;
-    overflow:hidden;
-  }
-  .portada img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transition: transform .6s ease;
-  }
-  .portada img:hover{ transform: scale(1.03); }
+    /* Menú lateral */
+    .sidebar {
+      width: 250px;
+      background-color: #f1f1f1;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 10px;
+    }
 
-  .overlay{
-    position:absolute;
-    inset:0;
-    background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    text-align:center;
-    color:white;
-    padding: 20px;
-  }
-  .overlay h1{
-    font-size: clamp(28px, 5vw, 48px);
-    margin:0;
-    letter-spacing:2px;
-  }
-  .overlay p{
-    margin:8px 0 0;
-    font-size: clamp(14px, 1.6vw, 18px);
-  }
-  .btn-portada{
-    margin-top:18px;
-    padding:12px 22px;
-    background: var(--rosa);
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-weight:700;
-    cursor:pointer;
-    transition: background .22s ease;
-  }
-  .btn-portada:hover{ background: var(--azul-oscuro); }
+    .sidebar h2 {
+      text-align: center;
+      color: #444;
+    }
 
-  /* ----- BOTONES FIJOS ----- */
-  #menu-btn{
-    position: fixed;
-    left:16px;
-    top:16px;
-    z-index:1200;
-    background: var(--rosa);
-    color:white;
-    padding:10px 14px;
-    border-radius:8px;
-    cursor:pointer;
-    border:none;
-    font-weight:700;
-    box-shadow:0 6px 18px rgba(0,0,0,0.12);
-  }
-  #cart-btn{
-    position: fixed;
-    right:16px;
-    top:16px;
-    z-index:1200;
-    background: var(--azul);
-    color:white;
-    padding:10px 14px;
-    border-radius:8px;
-    cursor:pointer;
-    border:none;
-    font-weight:700;
-    box-shadow:0 6px 18px rgba(0,0,0,0.12);
-  }
-  #cart-count{
-    display:inline-block;
-    background:#ff3b3b;
-    color:white;
-    padding:2px 7px;
-    border-radius:999px;
-    font-size:12px;
-    margin-left:8px;
-    vertical-align:middle;
-  }
+    .accordion {
+      background-color: #ddd;
+      color: #333;
+      cursor: pointer;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      font-size: 16px;
+      transition: 0.3s;
+      margin-top: 5px;
+    }
 
-  /* ----- SIDEBAR IZQUIERDO ----- */
-  #sidebar{
-    position: fixed;
-    left:0;
-    top:0;
-    height:100%;
-    width:0;
-    background: var(--azul);
-    overflow:hidden;
-    transition: width .28s ease;
-    z-index:1100;
-    padding-top:68px;
-    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
-  }
-  #sidebar .close {
-    position:absolute; right:12px; top:10px; color:white; font-size:26px; cursor:pointer;
-  }
-  #sidebar a{
-    display:block;
-    padding:12px 22px;
-    color:white;
-    text-decoration:none;
-    font-weight:700;
-    cursor:pointer;
-  }
-  #sidebar a:hover{ background: var(--rosa); }
+    .accordion:hover {
+      background-color: #ccc;
+    }
 
-  /* ----- CONTENIDO PRINCIPAL (debajo de portada) ----- */
-  main{
-    max-width:1200px;
-    margin: 30px auto;
-    padding: 0 16px 80px;
-  }
-  .section-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-  }
-  .section-title h2{
-    margin:0;
-    color: var(--azul-oscuro);
-    border-bottom: 3px solid var(--rosa);
-    padding-bottom:6px;
-  }
+    .panel {
+      display: none;
+      padding: 10px;
+      background-color: #f9f9f9;
+    }
 
-  /* ----- PANEL DESPLEGABLE ----- */
-  .panel{
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height .35s ease, padding .25s ease;
-    background:white;
-    border-radius:8px;
-    margin:12px 0 28px;
-    padding: 0 12px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.04);
-  }
-  .panel.open{
-    padding:18px 16px 22px;
-  }
-  .productos{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-  }
-  .prod-item{
-    background: #fff;
-    border-radius:8px;
-    padding:12px;
-    border: 1px solid #eee;
-  }
-  .prod-item h4{ margin:6px 0; color:var(--azul-oscuro); }
-  .prod-item p{ margin:0 0 8px; color:#555; font-size:14px; }
-  .precio { color: var(--rosa); font-weight:700; }
+    .panel p {
+      margin: 5px 0;
+    }
 
-  /* ----- CARRITO DERECHO ----- */
-  #carrito{
-    position: fixed;
-    right:0;
-    top:0;
-    height:100%;
-    width:0;
-    background:white;
-    border-left: 3px solid var(--rosa);
-    box-shadow:-6px 0 20px rgba(0,0,0,0.12);
-    overflow:auto;
-    transition: width .28s ease;
-    z-index:1300;
-    padding: 18px;
-  }
-  #carrito .close { position:absolute; right:12px; top:10px; color:var(--rosa); font-size:26px; cursor:pointer; }
-  #lista-carrito{ margin-top:16px; }
-  .carrito-item{
-    display:flex; gap:12px; align-items:center; padding:8px 0; border-bottom:1px solid #f1f1f1;
-  }
-  .carrito-item img{ width:56px; height:56px; object-fit:cover; border-radius:6px; }
-  .carrito-item .meta{ flex:1; }
-  .carrito-item .meta strong{ display:block; color:var(--azul-oscuro); }
-  .carrito-item .meta span{ color:#666; }
-  .remove-btn{ color:#ff3333; cursor:pointer; font-size:18px; margin-left:8px; }
+    /* Contenido principal */
+    .main {
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+    }
 
-  footer{ background:var(--azul); color:white; padding:18px; text-align:center; margin-top:40px; }
+    .collage {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px;
+    }
 
-  /* responsive */
-  @media(max-width:760px){
-    .portada{ grid-template-columns: repeat(2,1fr); grid-auto-rows: 180px; }
-  }
-  @media(max-width:420px){
-    .portada{ grid-template-columns: repeat(1,1fr); grid-auto-rows: 200px; }
-    #menu-btn, #cart-btn{ padding:8px 10px; }
-  }
-</style>
+    .collage img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    /* Carrito */
+    .cart {
+      width: 300px;
+      background: #fafafa;
+      border-left: 2px solid #ddd;
+      padding: 15px;
+      position: relative;
+    }
+
+    .cart h2 {
+      text-align: center;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+
+    .cart-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+
+    .cart button {
+      background: red;
+      color: #fff;
+      border: none;
+      padding: 5px 8px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .cart-total {
+      font-weight: bold;
+      margin-top: 15px;
+      text-align: right;
+    }
+
+    .btn-print {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- botones fijos -->
-  <button id="menu-btn" onclick="abrirMenu()">☰ Menú</button>
-  <button id="cart-btn" onclick="abrirCarrito()">🛒 Carrito <span id="cart-count">0</span></button>
+  <!-- Menú lateral -->
+  <div class="sidebar">
+    <h2>Categorías</h2>
+    <button class="accordion">Accesorios de Teléfonos</button>
+    <div class="panel"><p>Fundas, cargadores, auriculares...</p></div>
 
-  <!-- SIDEBAR IZQUIERDO -->
-  <aside id="sidebar" aria-hidden="true">
-    <span class="close" onclick="cerrarMenu()">×</span>
-    <a onclick="togglePanel('panel-telefonos')">Accesorios de Teléfonos</a>
-    <a onclick="togglePanel('panel-hogar')">Accesorios (Hogar)</a>
-    <a onclick="togglePanel('panel-cosmeticos')">Cosméticos</a>
-    <a onclick="togglePanel('panel-aromaticos')">Productos Aromáticos</a>
-    <a onclick="togglePanel('panel-lookbook')">Lookbook</a>
-    <a onclick="togglePanel('panel-promos')">Promos</a>
-    <a onclick="abrirCarrito()">🛒 Ir al Carrito</a>
-  </aside>
-
-  <!-- PORTADA (collage pantalla completa) -->
-  <section class="portada" id="portada">
-    <!-- asegurate que estos archivos existan en tu repo raíz -->
-    <img src="lampara-2-pisos.jpg" alt="">
-    <img src="lampara-base-blanca.jpg" alt="">
-    <img src="lampara-base-madera.jpg" alt="">
-    <img src="lampara-hongo-base-redonda.jpg" alt="">
-    <img src="lampara-meduza.jpg" alt="">
-    <img src="lampara-redonda-base-madera.jpg" alt="">
-    <div class="overlay" id="overlay">
-      <h1>✨ Gasty Store ✨</h1>
-      <p>Decoración y diseño. Descubrí nuestras lámparas y accesorios.</p>
-      <button class="btn-portada" onclick="entrarTienda()">Explorar la tienda</button>
+    <button class="accordion">Accesorios (Hogar)</button>
+    <div class="panel">
+      <p><button onclick="addToCart('Lámpara 2 pisos', 32, 'lampara-2-pisos.jpg')">Lámpara 2 pisos - $32</button></p>
+      <p><button onclick="addToCart('Lámpara base blanca', 32, 'lampara-base-blanca.jpg')">Lámpara base blanca - $32</button></p>
+      <p><button onclick="addToCart('Lámpara base madera', 34, 'lampara-base-madera.jpg')">Lámpara base madera - $34</button></p>
+      <p><button onclick="addToCart('Lámpara hongo redonda', 32, 'lampara-hongo-base-redonda.jpg')">Lámpara hongo redonda - $32</button></p>
+      <p><button onclick="addToCart('Lámpara meduza', 32, 'lampara-meduza.jpg')">Lámpara meduza - $32</button></p>
+      <p><button onclick="addToCart('Lámpara redonda base madera', 34, 'lampara-redonda-base-madera.jpg')">Lámpara redonda base madera - $34</button></p>
     </div>
-  </section>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main id="main-content">
+    <button class="accordion">Cosméticos</button>
+    <div class="panel"><p>Maquillajes y Faciales</p></div>
 
-    <!-- ACCESORIOS TELEFONOS -->
-    <article class="panel" id="panel-telefonos" aria-hidden="true">
-      <div class="section-title"><h2>Accesorios de Teléfonos</h2></div>
-      <div class="productos">
-        <div class="prod-item">
-          <h4>Fundas Simples</h4>
-          <p>Fundas transparentes y colores básicos, ajuste perfecto para la mayoría de modelos.</p>
-          <div><span class="precio">$1.200</span> <button class="btn" onclick="agregarAlCarrito('Fundas Simples',1200,'placeholder')">Agregar</button></div>
-        </div>
-        <div class="prod-item">
-          <h4>Cargadores Rápidos</h4>
-          <p>Cables y cargadores 3.0, compatibilidad amplia y carga segura.</p>
-          <div><span class="precio">$2.500</span> <button class="btn" onclick="agregarAlCarrito('Cargador Rápido',2500,'placeholder')">Agregar</button></div>
-        </div>
-      </div>
-    </article>
+    <button class="accordion">Productos Aromáticos</button>
+    <div class="panel"><p>Velas, sahumerios, aceites...</p></div>
 
-    <!-- HOGAR (LÁMPARAS) -->
-    <article class="panel" id="panel-hogar" aria-hidden="true">
-      <div class="section-title"><h2>Accesorios (Hogar)</h2></div>
-      <div class="productos">
-        <!-- Productos sin foto en sección pero con imagen asociada para el carrito -->
-        <div class="prod-item">
-          <h4>Lámpara Mandarina 2 Pisos</h4>
-          <p>Lámpara decorativa, luz cálida ideal para dormitorio o living.</p>
-          <div><span class="precio">$32.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Mandarina 2 Pisos',32000,'lampara-2-pisos.jpg')">Agregar</button></div>
-        </div>
-        <div class="prod-item">
-          <h4>Lámpara Base Blanca</h4>
-          <p>Diseño minimalista en blanco, perfecta para mesas de luz.</p>
-          <div><span class="precio">$32.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Base Blanca',32000,'lampara-base-blanca.jpg')">Agregar</button></div>
-        </div>
-        <div class="prod-item">
-          <h4>Lámpara Base Madera</h4>
-          <p>Tacto y look natural, base de madera maciza.</p>
-          <div><span class="precio">$34.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Base Madera',34000,'lampara-base-madera.jpg')">Agregar</button></div>
-        </div>
-        <div class="prod-item">
-          <h4>Lámpara Hongo Base Redonda</h4>
-          <p>Pantalla texturada, estilo moderno y acogedor.</p>
-          <div><span class="precio">$32.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Hongo Base Redonda',32000,'lampara-hongo-base-redonda.jpg')">Agregar</button></div>
-        </div>
-        <div class="prod-item">
-          <h4>Lámpara Meduza</h4>
-          <p>Forma orgánica y diseño original para espacios creativos.</p>
-          <div><span class="precio">$32.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Meduza',32000,'lampara-meduza.jpg')">Agregar</button></div>
-        </div>
-        <div class="prod-item">
-          <h4>Lámpara Redonda Base Madera</h4>
-          <p>Esfera opalina con base de madera, elegante y sobria.</p>
-          <div><span class="precio">$34.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Redonda Base Madera',34000,'lampara-redonda-base-madera.jpg')">Agregar</button></div>
-        </div>
-      </div>
-    </article>
+    <button class="accordion">Lookbook</button>
+    <div class="panel"><p>Tendencias de estilo.</p></div>
 
-    <!-- COSMETICOS -->
-    <article class="panel" id="panel-cosmeticos" aria-hidden="true">
-      <div class="section-title"><h2>Cosméticos</h2></div>
-      <div class="productos">
-        <div class="prod-item">
-          <h4>Base Líquida</h4>
-          <p>Acabado mate, cobertura media.</p>
-          <div><span class="precio">$9.800</span> <button class="btn" onclick="agregarAlCarrito('Base Líquida',9800,'placeholder')">Agregar</button></div>
-        </div>
-        <div class="prod-item">
-          <h4>Brillo Labial</h4>
-          <p>Hidratación y brillo para uso diario.</p>
-          <div><span class="precio">$1.900</span> <button class="btn" onclick="agregarAlCarrito('Brillo Labial',1900,'placeholder')">Agregar</button></div>
-        </div>
-      </div>
-    </article>
+    <button class="accordion">Promos</button>
+    <div class="panel"><p>Ofertas especiales aquí.</p></div>
+  </div>
 
-    <!-- AROMATICOS -->
-    <article class="panel" id="panel-aromaticos" aria-hidden="true">
-      <div class="section-title"><h2>Productos Aromáticos</h2></div>
-      <div class="productos">
-        <div class="prod-item">
-          <h4>Vela Aromática</h4>
-          <p>Aroma vainilla y sándalo, duración 40h aprox.</p>
-          <div><span class="precio">$6.500</span> <button class="btn" onclick="agregarAlCarrito('Vela Aromática',6500,'placeholder')">Agregar</button></div>
-        </div>
-        <div class="prod-item">
-          <h4>Pack Sahumerios</h4>
-          <p>Variedad de aromas para purificar espacios.</p>
-          <div><span class="precio">$2.800</span> <button class="btn" onclick="agregarAlCarrito('Pack Sahumerios',2800,'placeholder')">Agregar</button></div>
-        </div>
-      </div>
-    </article>
-
-    <article class="panel" id="panel-lookbook"><div class="section-title"><h2>Lookbook</h2></div><p style="padding:12px 16px">Próximamente fotografías inspiración y ambientes con nuestros productos.</p></article>
-    <article class="panel" id="panel-promos"><div class="section-title"><h2>Promos</h2></div><p style="padding:12px 16px">Promociones y combos especiales se anunciarán aquí.</p></article>
-
-  </main>
-
-  <!-- CARRITO DERECHO -->
-  <aside id="carrito" aria-hidden="true">
-    <span class="close" onclick="cerrarCarrito()">×</span>
-    <h3>🛒 Tu pedido</h3>
-    <div id="lista-carrito"></div>
-    <p style="margin-top:14px; font-weight:800">Total: <span id="total">$0</span></p>
-    <div style="margin-top:12px">
-      <button class="btn" onclick="finalizarCompra()">Finalizar compra por WhatsApp</button>
+  <!-- Contenido principal -->
+  <div class="main">
+    <h1>Bienvenido a Gasty Store</h1>
+    <div class="collage">
+      <img src="lampara-2-pisos.jpg" alt="Lámpara 2 pisos">
+      <img src="lampara-base-blanca.jpg" alt="Lámpara base blanca">
+      <img src="lampara-base-madera.jpg" alt="Lámpara base madera">
+      <img src="lampara-hongo-base-redonda.jpg" alt="Lámpara hongo">
+      <img src="lampara-meduza.jpg" alt="Lámpara meduza">
+      <img src="lampara-redonda-base-madera.jpg" alt="Lámpara redonda base madera">
     </div>
-  </aside>
+  </div>
 
-  <footer>
-    <p>📍 Av. Corrientes 4927 - CABA | © 2025 Gasty Store</p>
-    <p>📞 <a href="https://wa.me/541127186865" style="color:white; text-decoration:underline">11 2718 6865</a></p>
-  </footer>
+  <!-- Carrito -->
+  <div class="cart">
+    <h2>Carrito</h2>
+    <div id="cart-items"></div>
+    <div class="cart-total" id="cart-total">Total: $0</div>
+    <button class="btn-print" onclick="printCart()">Imprimir carrito</button>
+  </div>
 
-<script>
-/* ---------- datos útiles ---------- */
-/* placeholder imagen data-url (SVG pequeño) */
-const PLACEHOLDER = 'data:image/svg+xml;utf8,' + encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="#f3f3f3"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#ccc" font-size="14">Imagen</text></svg>'
-);
+  <script>
+    // Acordeón
+    let acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        let panel = this.nextElementSibling;
+        panel.style.display = panel.style.display === "block" ? "none" : "block";
+      });
+    }
 
-/* ---------- Sidebar open/close ---------- */
-function abrirMenu(){ document.getElementById('sidebar').style.width = '300px'; }
-function cerrarMenu(){ document.getElementById('sidebar').style.width = '0'; }
+    // Carrito
+    let cart = [];
+    function addToCart(name, price, image) {
+      cart.push({ name, price, image });
+      renderCart();
+    }
 
-/* ---------- Carrito open/close ---------- */
-function abrirCarrito(){ document.getElementById('carrito').style.width = '360px'; updateCartCount(); }
-function cerrarCarrito(){ document.getElementById('carrito').style.width = '0'; }
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
 
-/* ---------- Entrada a tienda desde portada ---------- */
-function entrarTienda(){
-  // ocultar overlay para permitir ver y navegar la página
-  document.getElementById('overlay').style.display = 'none';
-  // abrir el panel de hogar por defecto y scrollear
-  togglePanel('panel-hogar', true);
-  setTimeout(()=> window.scrollTo({top: document.getElementById('main-content').offsetTop, behavior:'smooth'}), 200);
-}
+    function renderCart() {
+      let cartItems = document.getElementById("cart-items");
+      let total = 0;
+      cartItems.innerHTML = "";
+      cart.forEach((item, index) => {
+        total += item.price;
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div>${item.name}<br>$${item.price}</div>
+            <button onclick="removeFromCart(${index})">X</button>
+          </div>
+        `;
+      });
+      document.getElementById("cart-total").innerText = "Total: $" + total;
+    }
 
-/* ---------- PANELES (toggle con animación de max-height) ---------- */
-function togglePanel(id, openIfClosed = false){
-  const panel = document.getElementById(id);
-  if(!panel) return;
-  const isOpen = panel.classList.contains('open');
-  if(isOpen){
-    // cerrar
-    panel.style.maxHeight = panel.scrollHeight + 'px'; // for smooth transition start
-    requestAnimationFrame(()=> {
-      panel.style.maxHeight = '0';
-      panel.classList.remove('open');
-      panel.setAttribute('aria-hidden','true');
-    });
-  } else {
-    // abrir (si queremos que se cierre el resto, podemos hacerlo aquí)
-    // opcional: cerrar otros panels para que no estén todos abiertos
-    document.querySelectorAll('.panel.open').forEach(p => {
-      p.style.maxHeight = p.scrollHeight + 'px';
-      requestAnimationFrame(()=> { p.style.maxHeight = '0'; p.classList.remove('open'); p.setAttribute('aria-hidden','true'); });
-    });
-
-    panel.classList.add('open');
-    panel.setAttribute('aria-hidden','false');
-    // set maxHeight to scrollHeight for animation
-    panel.style.maxHeight = panel.scrollHeight + 'px';
-    // scrollear a panel
-    setTimeout(()=> panel.scrollIntoView({behavior:'smooth', block:'start'}), 240);
-  }
-}
-
-/* ---------- CARRITO (foto + nombre + precio + quitar) ---------- */
-let carrito = [];
-let total = 0;
-
-function agregarAlCarrito(producto, precio, imagen){
-  // imagen: nombre de archivo en repo raíz o 'placeholder'
-  const imgSrc = (imagen && imagen !== 'placeholder') ? imagen : PLACEHOLDER;
-  carrito.push({ producto, precio: Number(precio), imagen: imgSrc });
-  total += Number(precio);
-  actualizarCarrito();
-  abrirCarrito();
-}
-
-function actualizarCarrito(){
-  const cont = document.getElementById('lista-carrito');
-  cont.innerHTML = '';
-  carrito.forEach((it, idx) => {
-    const div = document.createElement('div');
-    div.className = 'carrito-item';
-    const img = document.createElement('img'); img.src = it.imagen;
-    const meta = document.createElement('div'); meta.className = 'meta';
-    meta.innerHTML = `<strong>${it.producto}</strong><span>$${it.precio.toLocaleString()}</span>`;
-    const remove = document.createElement('div'); remove.className = 'remove-btn'; remove.innerHTML = '❌';
-    remove.onclick = ()=> eliminarDelCarrito(idx);
-    div.appendChild(img); div.appendChild(meta); div.appendChild(remove);
-    cont.appendChild(div);
-  });
-  document.getElementById('total').textContent = '$' + total.toLocaleString();
-  updateCartCount();
-}
-
-function eliminarDelCarrito(index){
-  if(index<0 || index>=carrito.length) return;
-  total -= carrito[index].precio;
-  carrito.splice(index,1);
-  actualizarCarrito();
-}
-
-function updateCartCount(){
-  document.getElementById('cart-count').textContent = carrito.length;
-}
-
-/* ---------- Finalizar compra (abre WhatsApp con resumen) ---------- */
-function finalizarCompra(){
-  if(carrito.length===0){ alert('El carrito está vacío'); return; }
-  let mensaje = 'Hola! Quiero comprar:%0A';
-  carrito.forEach(it => {
-    mensaje += `- ${it.producto} ($${it.precio.toLocaleString()})%0A`;
-  });
-  mensaje += `Total: $${total.toLocaleString()}`;
-  // Abrir whatsapp
-  window.open(`https://wa.me/541127186865?text=${mensaje}`, '_blank');
-}
-
-/* ---------- al cargar la página: aseguramos que todos los panels estén cerrados ---------- */
-document.addEventListener('DOMContentLoaded', ()=> {
-  document.querySelectorAll('.panel').forEach(p => {
-    p.style.maxHeight = '0';
-    p.classList.remove('open');
-    p.setAttribute('aria-hidden','true');
-  });
-  // si quieres que la portada desaparezca automáticamente despues de X segundos, podes activar esto:
-  // setTimeout(()=> document.getElementById('overlay').style.display='none', 4000);
-});
-</script>
+    function printCart() {
+      let printWindow = window.open("", "", "width=600,height=400");
+      printWindow.document.write("<h2>Resumen del carrito</h2>");
+      cart.forEach(item => {
+        printWindow.document.write(`<p>${item.name} - $${item.price}</p>`);
+      });
+      printWindow.document.write("<p><strong>Total: $" + cart.reduce((a, b) => a + b.price, 0) + "</strong></p>");
+      printWindow.print();
+    }
+  </script>
 </body>
 </html>
