@@ -14,21 +14,38 @@
     header {
       background-color: #87CEEB; /* Azul cielo */
       color: white;
-      padding: 20px;
+      padding: 15px;
       text-align: center;
     }
-    header h1 {
-      margin: 0;
-      font-size: 2em;
+    nav {
+      background: #FF69B4; /* Rosa */
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 10px;
+      flex-wrap: wrap;
     }
-    header p {
-      margin: 5px 0 0;
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 30px;
+    }
+    h2 {
+      color: #4682B4;
+      border-bottom: 2px solid #FF69B4;
+      padding-bottom: 5px;
     }
     .productos {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
-      padding: 20px;
+      margin-top: 20px;
     }
     .card {
       background: white;
@@ -37,102 +54,202 @@
       box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
       text-align: center;
       padding: 15px;
-      transition: transform 0.2s ease;
-    }
-    .card:hover {
-      transform: scale(1.03);
     }
     .card img {
       width: 100%;
-      max-height: 250px;
+      max-height: 200px;
       object-fit: cover;
       border-radius: 8px;
     }
     .card h3 {
       margin: 10px 0 5px;
-      color: #4682B4; /* Azul cielo */
+      color: #4682B4;
     }
     .precio {
-      font-size: 18px;
-      color: #FF69B4; /* Rosa */
+      font-size: 16px;
+      color: #FF69B4;
       font-weight: bold;
     }
     .btn {
       display: inline-block;
       margin-top: 10px;
-      padding: 10px 15px;
-      background: #FF69B4; /* Rosa */
+      padding: 8px 12px;
+      background: #FF69B4;
       color: white;
       text-decoration: none;
       border-radius: 6px;
       font-weight: bold;
+      cursor: pointer;
     }
     .btn:hover {
-      background: #4682B4; /* Azul cielo */
+      background: #4682B4;
+    }
+    #carrito {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: white;
+      border: 2px solid #FF69B4;
+      border-radius: 10px;
+      padding: 15px;
+      width: 280px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     footer {
-      background-color: #87CEEB; /* Azul cielo */
+      background-color: #87CEEB;
       color: white;
       text-align: center;
       padding: 15px;
-      margin-top: 30px;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>✨ Gasty Store ✨</h1>
-    <p>Decoración y estilo para tu hogar</p>
-    <p>📞 WhatsApp: 11 2718 6865</p>
+    <p>Decoración, Estilo y Tecnología para tu día a día</p>
   </header>
 
-  <section class="productos">
-    <div class="card">
-      <img src="lampara-2-pisos.jpg" alt="Lámpara 2 pisos">
-      <h3>Lámpara Mandarina 2 Pisos</h3>
-      <p class="precio">$32.000</p>
-      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%202%20pisos" class="btn">Comprar</a>
-    </div>
+  <nav>
+    <a href="#telefonos">Accesorios de Teléfonos</a>
+    <a href="#hogar">Accesorios (Hogar)</a>
+    <a href="#cosmeticos">Cosméticos</a>
+    <a href="#aromaticos">Productos Aromáticos</a>
+    <a href="#lookbook">Lookbook</a>
+    <a href="#promos">Promos</a>
+  </nav>
 
-    <div class="card">
-      <img src="lampara-base-blanca.jpg" alt="Lámpara base blanca">
-      <h3>Lámpara Base Blanca</h3>
-      <p class="precio">$32.000</p>
-      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Base%20Blanca" class="btn">Comprar</a>
-    </div>
-
-    <div class="card">
-      <img src="lampara-base-madera.jpg" alt="Lámpara base madera">
-      <h3>Lámpara Base Madera</h3>
-      <p class="precio">$34.000</p>
-      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Base%20Madera" class="btn">Comprar</a>
-    </div>
-
-    <div class="card">
-      <img src="lampara-hongo-base-redonda.jpg" alt="Lámpara hongo base redonda">
-      <h3>Lámpara Hongo Base Redonda</h3>
-      <p class="precio">$32.000</p>
-      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Hongo%20Base%20Redonda" class="btn">Comprar</a>
-    </div>
-
-    <div class="card">
-      <img src="lampara-meduza.jpg" alt="Lámpara meduza">
-      <h3>Lámpara Meduza</h3>
-      <p class="precio">$32.000</p>
-      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Meduza" class="btn">Comprar</a>
-    </div>
-
-    <div class="card">
-      <img src="lampara-redonda-base-madera.jpg" alt="Lámpara redonda base madera">
-      <h3>Lámpara Redonda Base Madera</h3>
-      <p class="precio">$34.000</p>
-      <a href="https://wa.me/541127186865?text=Hola!%20Quiero%20más%20info%20sobre%20la%20Lámpara%20Redonda%20Base%20Madera" class="btn">Comprar</a>
+  <!-- SECCIONES -->
+  <section id="telefonos">
+    <h2>Accesorios de Teléfonos</h2>
+    <div class="productos">
+      <div class="card">
+        <img src="funda-ejemplo.jpg" alt="Funda Celular">
+        <h3>Funda Transparente</h3>
+        <p class="precio">$5.000</p>
+        <button class="btn" onclick="agregarAlCarrito('Funda Transparente', 5000)">Agregar al carrito</button>
+      </div>
+      <div class="card">
+        <img src="cargador-ejemplo.jpg" alt="Cargador rápido">
+        <h3>Cargador Rápido</h3>
+        <p class="precio">$7.500</p>
+        <button class="btn" onclick="agregarAlCarrito('Cargador Rápido', 7500)">Agregar al carrito</button>
+      </div>
     </div>
   </section>
 
+  <section id="hogar">
+    <h2>Accesorios Hogar</h2>
+    <div class="productos">
+      <div class="card">
+        <img src="lampara-ejemplo.jpg" alt="Lámpara">
+        <h3>Lámpara Deco</h3>
+        <p class="precio">$32.000</p>
+        <button class="btn" onclick="agregarAlCarrito('Lámpara Deco', 32000)">Agregar al carrito</button>
+      </div>
+      <div class="card">
+        <img src="organizador-ejemplo.jpg" alt="Organizador">
+        <h3>Organizador Multiuso</h3>
+        <p class="precio">$4.500</p>
+        <button class="btn" onclick="agregarAlCarrito('Organizador Multiuso', 4500)">Agregar al carrito</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="cosmeticos">
+    <h2>Cosméticos</h2>
+    <div class="productos">
+      <div class="card">
+        <img src="base-ejemplo.jpg" alt="Base de maquillaje">
+        <h3>Base Líquida</h3>
+        <p class="precio">$9.800</p>
+        <button class="btn" onclick="agregarAlCarrito('Base Líquida', 9800)">Agregar al carrito</button>
+      </div>
+      <div class="card">
+        <img src="labial-ejemplo.jpg" alt="Labial">
+        <h3>Labial Mate</h3>
+        <p class="precio">$4.200</p>
+        <button class="btn" onclick="agregarAlCarrito('Labial Mate', 4200)">Agregar al carrito</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="aromaticos">
+    <h2>Productos Aromáticos</h2>
+    <div class="productos">
+      <div class="card">
+        <img src="vela-ejemplo.jpg" alt="Vela aromática">
+        <h3>Vela Aromática</h3>
+        <p class="precio">$6.500</p>
+        <button class="btn" onclick="agregarAlCarrito('Vela Aromática', 6500)">Agregar al carrito</button>
+      </div>
+      <div class="card">
+        <img src="sahumerio-ejemplo.jpg" alt="Sahumerios">
+        <h3>Pack Sahumerios</h3>
+        <p class="precio">$2.800</p>
+        <button class="btn" onclick="agregarAlCarrito('Pack Sahumerios', 2800)">Agregar al carrito</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="lookbook">
+    <h2>Lookbook</h2>
+    <p>Próximamente nuestras fotos e inspiración ✨</p>
+  </section>
+
+  <section id="promos">
+    <h2>Promos</h2>
+    <p>Aquí irán las mejores promociones de la tienda 🎁</p>
+  </section>
+
+  <!-- Carrito -->
+  <div id="carrito">
+    <h3>🛒 Carrito</h3>
+    <ul id="lista-carrito"></ul>
+    <p id="total">Total: $0</p>
+    <button class="btn" onclick="finalizarCompra()">Finalizar compra</button>
+  </div>
+
   <footer>
-    <p>© 2025 Gasty Store - Todos los derechos reservados</p>
+    <p>📍 Av. Corrientes 4927 - CABA</p>
+    <p>📞 WhatsApp: <a href="https://wa.me/541127186865" style="color:white;">11 2718 6865</a></p>
+    <p>© 2025 Gasty Store</p>
   </footer>
+
+  <script>
+    let carrito = [];
+    let total = 0;
+
+    function agregarAlCarrito(producto, precio) {
+      carrito.push({producto, precio});
+      total += precio;
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const lista = document.getElementById('lista-carrito');
+      lista.innerHTML = '';
+      carrito.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.producto} - $${item.precio}`;
+        lista.appendChild(li);
+      });
+      document.getElementById('total').textContent = 'Total: $' + total;
+    }
+
+    function finalizarCompra() {
+      if (carrito.length === 0) {
+        alert('El carrito está vacío');
+        return;
+      }
+      let mensaje = 'Hola! Quiero comprar:%0A';
+      carrito.forEach(item => {
+        mensaje += `- ${item.producto} ($${item.precio})%0A`;
+      });
+      mensaje += `Total: $${total}`;
+      window.open(`https://wa.me/541127186865?text=${mensaje}`, '_blank');
+    }
+  </script>
 </body>
 </html>
 
