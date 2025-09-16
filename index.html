@@ -1,355 +1,497 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gasty Store</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background-color: #FFFFF0; /* Marfil */
-      color: #333;
-    }
-    header {
-      display: none; /* reemplazado por portada */
-    }
-    /* Portada fullscreen */
-    .portada {
-      position: relative;
-      height: 100vh;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      grid-auto-rows: 200px;
-      gap: 5px;
-      overflow: hidden;
-    }
-    .portada img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      flex-direction: column;
-      color: white;
-    }
-    .overlay h1 {
-      font-size: 3rem;
-      margin: 0;
-    }
-    .overlay p {
-      font-size: 1.2rem;
-    }
-    .btn-portada {
-      margin-top: 20px;
-      padding: 12px 20px;
-      background: #FF69B4;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    .btn-portada:hover {
-      background: #4682B4;
-    }
-    /* Botón menú lateral */
-    #menu-btn {
-      position: fixed;
-      left: 20px;
-      top: 20px;
-      background: #FF69B4;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      z-index: 1001;
-    }
-    /* Sidebar */
-    #sidebar {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: #87CEEB;
-      overflow-x: hidden;
-      transition: 0.3s;
-      padding-top: 60px;
-      z-index: 1000;
-    }
-    #sidebar a {
-      padding: 12px 20px;
-      text-decoration: none;
-      font-size: 18px;
-      color: white;
-      display: block;
-      cursor: pointer;
-    }
-    #sidebar a:hover {
-      background-color: #FF69B4;
-    }
-    #close-btn {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 25px;
-      cursor: pointer;
-      color: white;
-    }
-    /* Secciones desplegables */
-    .accordion {
-      background-color: #FF69B4;
-      color: white;
-      cursor: pointer;
-      padding: 15px;
-      width: 100%;
-      border: none;
-      text-align: left;
-      font-size: 18px;
-      transition: 0.3s;
-      margin-top: 5px;
-    }
-    .accordion:hover {
-      background-color: #4682B4;
-    }
-    .panel {
-      display: none;
-      padding: 20px;
-      background: #fff;
-      animation: fade 0.4s;
-    }
-    @keyframes fade {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    .productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-      text-align: center;
-      padding: 15px;
-    }
-    .card img {
-      width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .card h3 {
-      margin: 10px 0 5px;
-      color: #4682B4;
-    }
-    .precio {
-      font-size: 16px;
-      color: #FF69B4;
-      font-weight: bold;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: #FF69B4;
-      color: white;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #4682B4;
-    }
-    /* Carrito lateral derecho */
-    #carrito {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      top: 0;
-      right: 0;
-      background: white;
-      border-left: 3px solid #FF69B4;
-      overflow-x: hidden;
-      transition: 0.3s;
-      padding: 20px;
-      z-index: 1002;
-    }
-    #carrito h3 {
-      color: #4682B4;
-    }
-    #close-carrito {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 25px;
-      cursor: pointer;
-      color: #FF69B4;
-    }
-    .carrito-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 5px;
-    }
-    .carrito-item img {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      margin-right: 10px;
-      border-radius: 5px;
-    }
-    .remove-btn {
-      color: red;
-      cursor: pointer;
-      margin-left: auto;
-      font-size: 18px;
-    }
-    footer {
-      background-color: #87CEEB;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 40px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Gasty Store</title>
+<style>
+  :root{
+    --marfil: #FFFFF0;
+    --azul: #87CEEB;
+    --rosa: #FF69B4;
+    --azul-oscuro: #4682B4;
+    --texto: #333;
+  }
+  *{box-sizing: border-box;}
+  body{
+    margin:0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--marfil);
+    color: var(--texto);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ----- PORTADA (COLLAGE FULLSCREEN) ----- */
+  .portada {
+    position: relative;
+    height: 100vh; /* pantalla completa */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap:6px;
+    overflow:hidden;
+  }
+  .portada img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition: transform .6s ease;
+  }
+  .portada img:hover{ transform: scale(1.03); }
+
+  .overlay{
+    position:absolute;
+    inset:0;
+    background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.45));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    color:white;
+    padding: 20px;
+  }
+  .overlay h1{
+    font-size: clamp(28px, 5vw, 48px);
+    margin:0;
+    letter-spacing:2px;
+  }
+  .overlay p{
+    margin:8px 0 0;
+    font-size: clamp(14px, 1.6vw, 18px);
+  }
+  .btn-portada{
+    margin-top:18px;
+    padding:12px 22px;
+    background: var(--rosa);
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-weight:700;
+    cursor:pointer;
+    transition: background .22s ease;
+  }
+  .btn-portada:hover{ background: var(--azul-oscuro); }
+
+  /* ----- BOTONES FIJOS ----- */
+  #menu-btn{
+    position: fixed;
+    left:16px;
+    top:16px;
+    z-index:1200;
+    background: var(--rosa);
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    border:none;
+    font-weight:700;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  }
+  #cart-btn{
+    position: fixed;
+    right:16px;
+    top:16px;
+    z-index:1200;
+    background: var(--azul);
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    border:none;
+    font-weight:700;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  }
+  #cart-count{
+    display:inline-block;
+    background:#ff3b3b;
+    color:white;
+    padding:2px 7px;
+    border-radius:999px;
+    font-size:12px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+
+  /* ----- SIDEBAR IZQUIERDO ----- */
+  #sidebar{
+    position: fixed;
+    left:0;
+    top:0;
+    height:100%;
+    width:0;
+    background: var(--azul);
+    overflow:hidden;
+    transition: width .28s ease;
+    z-index:1100;
+    padding-top:68px;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.08);
+  }
+  #sidebar .close {
+    position:absolute; right:12px; top:10px; color:white; font-size:26px; cursor:pointer;
+  }
+  #sidebar a{
+    display:block;
+    padding:12px 22px;
+    color:white;
+    text-decoration:none;
+    font-weight:700;
+    cursor:pointer;
+  }
+  #sidebar a:hover{ background: var(--rosa); }
+
+  /* ----- CONTENIDO PRINCIPAL (debajo de portada) ----- */
+  main{
+    max-width:1200px;
+    margin: 30px auto;
+    padding: 0 16px 80px;
+  }
+  .section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .section-title h2{
+    margin:0;
+    color: var(--azul-oscuro);
+    border-bottom: 3px solid var(--rosa);
+    padding-bottom:6px;
+  }
+
+  /* ----- PANEL DESPLEGABLE ----- */
+  .panel{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease, padding .25s ease;
+    background:white;
+    border-radius:8px;
+    margin:12px 0 28px;
+    padding: 0 12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.04);
+  }
+  .panel.open{
+    padding:18px 16px 22px;
+  }
+  .productos{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .prod-item{
+    background: #fff;
+    border-radius:8px;
+    padding:12px;
+    border: 1px solid #eee;
+  }
+  .prod-item h4{ margin:6px 0; color:var(--azul-oscuro); }
+  .prod-item p{ margin:0 0 8px; color:#555; font-size:14px; }
+  .precio { color: var(--rosa); font-weight:700; }
+
+  /* ----- CARRITO DERECHO ----- */
+  #carrito{
+    position: fixed;
+    right:0;
+    top:0;
+    height:100%;
+    width:0;
+    background:white;
+    border-left: 3px solid var(--rosa);
+    box-shadow:-6px 0 20px rgba(0,0,0,0.12);
+    overflow:auto;
+    transition: width .28s ease;
+    z-index:1300;
+    padding: 18px;
+  }
+  #carrito .close { position:absolute; right:12px; top:10px; color:var(--rosa); font-size:26px; cursor:pointer; }
+  #lista-carrito{ margin-top:16px; }
+  .carrito-item{
+    display:flex; gap:12px; align-items:center; padding:8px 0; border-bottom:1px solid #f1f1f1;
+  }
+  .carrito-item img{ width:56px; height:56px; object-fit:cover; border-radius:6px; }
+  .carrito-item .meta{ flex:1; }
+  .carrito-item .meta strong{ display:block; color:var(--azul-oscuro); }
+  .carrito-item .meta span{ color:#666; }
+  .remove-btn{ color:#ff3333; cursor:pointer; font-size:18px; margin-left:8px; }
+
+  footer{ background:var(--azul); color:white; padding:18px; text-align:center; margin-top:40px; }
+
+  /* responsive */
+  @media(max-width:760px){
+    .portada{ grid-template-columns: repeat(2,1fr); grid-auto-rows: 180px; }
+  }
+  @media(max-width:420px){
+    .portada{ grid-template-columns: repeat(1,1fr); grid-auto-rows: 200px; }
+    #menu-btn, #cart-btn{ padding:8px 10px; }
+  }
+</style>
 </head>
 <body>
 
-  <!-- Botón menú -->
-  <div id="menu-btn" onclick="abrirMenu()">☰ Menú</div>
+  <!-- botones fijos -->
+  <button id="menu-btn" onclick="abrirMenu()">☰ Menú</button>
+  <button id="cart-btn" onclick="abrirCarrito()">🛒 Carrito <span id="cart-count">0</span></button>
 
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <span id="close-btn" onclick="cerrarMenu()">×</span>
-    <a onclick="togglePanel('telefonos')">Accesorios de Teléfonos</a>
-    <a onclick="togglePanel('hogar')">Accesorios (Hogar)</a>
-    <a onclick="togglePanel('cosmeticos')">Cosméticos</a>
-    <a onclick="togglePanel('aromaticos')">Productos Aromáticos</a>
-    <a onclick="togglePanel('lookbook')">Lookbook</a>
-    <a onclick="togglePanel('promos')">Promos</a>
-    <a onclick="abrirCarrito()">🛒 Carrito</a>
-  </div>
+  <!-- SIDEBAR IZQUIERDO -->
+  <aside id="sidebar" aria-hidden="true">
+    <span class="close" onclick="cerrarMenu()">×</span>
+    <a onclick="togglePanel('panel-telefonos')">Accesorios de Teléfonos</a>
+    <a onclick="togglePanel('panel-hogar')">Accesorios (Hogar)</a>
+    <a onclick="togglePanel('panel-cosmeticos')">Cosméticos</a>
+    <a onclick="togglePanel('panel-aromaticos')">Productos Aromáticos</a>
+    <a onclick="togglePanel('panel-lookbook')">Lookbook</a>
+    <a onclick="togglePanel('panel-promos')">Promos</a>
+    <a onclick="abrirCarrito()">🛒 Ir al Carrito</a>
+  </aside>
 
-  <!-- Portada collage -->
-  <section class="portada">
-    <img src="lampara-2-pisos.jpg">
-    <img src="lampara-base-blanca.jpg">
-    <img src="lampara-base-madera.jpg">
-    <img src="lampara-hongo-base-redonda.jpg">
-    <img src="lampara-meduza.jpg">
-    <img src="lampara-redonda-base-madera.jpg">
-    <div class="overlay">
+  <!-- PORTADA (collage pantalla completa) -->
+  <section class="portada" id="portada">
+    <!-- asegurate que estos archivos existan en tu repo raíz -->
+    <img src="lampara-2-pisos.jpg" alt="">
+    <img src="lampara-base-blanca.jpg" alt="">
+    <img src="lampara-base-madera.jpg" alt="">
+    <img src="lampara-hongo-base-redonda.jpg" alt="">
+    <img src="lampara-meduza.jpg" alt="">
+    <img src="lampara-redonda-base-madera.jpg" alt="">
+    <div class="overlay" id="overlay">
       <h1>✨ Gasty Store ✨</h1>
-      <p>Decoración, Estilo y Tecnología para tu día a día</p>
-      <button class="btn-portada" onclick="document.getElementById('hogar').style.display='block'; window.scrollTo(0, document.getElementById('hogar').offsetTop);">Explorar</button>
+      <p>Decoración y diseño. Descubrí nuestras lámparas y accesorios.</p>
+      <button class="btn-portada" onclick="entrarTienda()">Explorar la tienda</button>
     </div>
   </section>
 
-  <!-- Secciones -->
-  <div class="panel" id="telefonos">
-    <h2>Accesorios de Teléfonos</h2>
-    <div class="productos">
-      <div class="card"><img src="funda-ejemplo.jpg"><h3>Funda Transparente</h3><p class="precio">$5.000</p><button class="btn" onclick="agregarAlCarrito('Funda Transparente', 5000, 'funda-ejemplo.jpg')">Agregar al carrito</button></div>
-      <div class="card"><img src="cargador-ejemplo.jpg"><h3>Cargador Rápido</h3><p class="precio">$7.500</p><button class="btn" onclick="agregarAlCarrito('Cargador Rápido', 7500, 'cargador-ejemplo.jpg')">Agregar al carrito</button></div>
-    </div>
-  </div>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main id="main-content">
 
-  <div class="panel" id="hogar">
-    <h2>Accesorios Hogar</h2>
-    <div class="productos">
-      <div class="card"><img src="lampara-2-pisos.jpg"><h3>Lámpara Mandarina 2 Pisos</h3><p class="precio">$32.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Mandarina 2 Pisos', 32000, 'lampara-2-pisos.jpg')">Agregar al carrito</button></div>
-      <div class="card"><img src="lampara-base-blanca.jpg"><h3>Lámpara Base Blanca</h3><p class="precio">$32.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Base Blanca', 32000, 'lampara-base-blanca.jpg')">Agregar al carrito</button></div>
-      <div class="card"><img src="lampara-base-madera.jpg"><h3>Lámpara Base Madera</h3><p class="precio">$34.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Base Madera', 34000, 'lampara-base-madera.jpg')">Agregar al carrito</button></div>
-      <div class="card"><img src="lampara-hongo-base-redonda.jpg"><h3>Lámpara Hongo Base Redonda</h3><p class="precio">$32.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Hongo Base Redonda', 32000, 'lampara-hongo-base-redonda.jpg')">Agregar al carrito</button></div>
-      <div class="card"><img src="lampara-meduza.jpg"><h3>Lámpara Meduza</h3><p class="precio">$32.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Meduza', 32000, 'lampara-meduza.jpg')">Agregar al carrito</button></div>
-      <div class="card"><img src="lampara-redonda-base-madera.jpg"><h3>Lámpara Redonda Base Madera</h3><p class="precio">$34.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Redonda Base Madera', 34000, 'lampara-redonda-base-madera.jpg')">Agregar al carrito</button></div>
-    </div>
-  </div>
+    <!-- ACCESORIOS TELEFONOS -->
+    <article class="panel" id="panel-telefonos" aria-hidden="true">
+      <div class="section-title"><h2>Accesorios de Teléfonos</h2></div>
+      <div class="productos">
+        <div class="prod-item">
+          <h4>Fundas Simples</h4>
+          <p>Fundas transparentes y colores básicos, ajuste perfecto para la mayoría de modelos.</p>
+          <div><span class="precio">$1.200</span> <button class="btn" onclick="agregarAlCarrito('Fundas Simples',1200,'placeholder')">Agregar</button></div>
+        </div>
+        <div class="prod-item">
+          <h4>Cargadores Rápidos</h4>
+          <p>Cables y cargadores 3.0, compatibilidad amplia y carga segura.</p>
+          <div><span class="precio">$2.500</span> <button class="btn" onclick="agregarAlCarrito('Cargador Rápido',2500,'placeholder')">Agregar</button></div>
+        </div>
+      </div>
+    </article>
 
-  <div class="panel" id="cosmeticos"><h2>Cosméticos</h2><p>(Próximamente más productos)</p></div>
-  <div class="panel" id="aromaticos"><h2>Productos Aromáticos</h2><p>(Próximamente más productos)</p></div>
-  <div class="panel" id="lookbook"><h2>Lookbook</h2><p>Próximamente nuestras fotos e inspiración ✨</p></div>
-  <div class="panel" id="promos"><h2>Promos</h2><p>Aquí irán las mejores promociones 🎁</p></div>
+    <!-- HOGAR (LÁMPARAS) -->
+    <article class="panel" id="panel-hogar" aria-hidden="true">
+      <div class="section-title"><h2>Accesorios (Hogar)</h2></div>
+      <div class="productos">
+        <!-- Productos sin foto en sección pero con imagen asociada para el carrito -->
+        <div class="prod-item">
+          <h4>Lámpara Mandarina 2 Pisos</h4>
+          <p>Lámpara decorativa, luz cálida ideal para dormitorio o living.</p>
+          <div><span class="precio">$32.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Mandarina 2 Pisos',32000,'lampara-2-pisos.jpg')">Agregar</button></div>
+        </div>
+        <div class="prod-item">
+          <h4>Lámpara Base Blanca</h4>
+          <p>Diseño minimalista en blanco, perfecta para mesas de luz.</p>
+          <div><span class="precio">$32.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Base Blanca',32000,'lampara-base-blanca.jpg')">Agregar</button></div>
+        </div>
+        <div class="prod-item">
+          <h4>Lámpara Base Madera</h4>
+          <p>Tacto y look natural, base de madera maciza.</p>
+          <div><span class="precio">$34.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Base Madera',34000,'lampara-base-madera.jpg')">Agregar</button></div>
+        </div>
+        <div class="prod-item">
+          <h4>Lámpara Hongo Base Redonda</h4>
+          <p>Pantalla texturada, estilo moderno y acogedor.</p>
+          <div><span class="precio">$32.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Hongo Base Redonda',32000,'lampara-hongo-base-redonda.jpg')">Agregar</button></div>
+        </div>
+        <div class="prod-item">
+          <h4>Lámpara Meduza</h4>
+          <p>Forma orgánica y diseño original para espacios creativos.</p>
+          <div><span class="precio">$32.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Meduza',32000,'lampara-meduza.jpg')">Agregar</button></div>
+        </div>
+        <div class="prod-item">
+          <h4>Lámpara Redonda Base Madera</h4>
+          <p>Esfera opalina con base de madera, elegante y sobria.</p>
+          <div><span class="precio">$34.000</span> <button class="btn" onclick="agregarAlCarrito('Lámpara Redonda Base Madera',34000,'lampara-redonda-base-madera.jpg')">Agregar</button></div>
+        </div>
+      </div>
+    </article>
 
-  <!-- Carrito -->
-  <div id="carrito">
-    <span id="close-carrito" onclick="cerrarCarrito()">×</span>
-    <h3>🛒 Tu Carrito</h3>
+    <!-- COSMETICOS -->
+    <article class="panel" id="panel-cosmeticos" aria-hidden="true">
+      <div class="section-title"><h2>Cosméticos</h2></div>
+      <div class="productos">
+        <div class="prod-item">
+          <h4>Base Líquida</h4>
+          <p>Acabado mate, cobertura media.</p>
+          <div><span class="precio">$9.800</span> <button class="btn" onclick="agregarAlCarrito('Base Líquida',9800,'placeholder')">Agregar</button></div>
+        </div>
+        <div class="prod-item">
+          <h4>Brillo Labial</h4>
+          <p>Hidratación y brillo para uso diario.</p>
+          <div><span class="precio">$1.900</span> <button class="btn" onclick="agregarAlCarrito('Brillo Labial',1900,'placeholder')">Agregar</button></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- AROMATICOS -->
+    <article class="panel" id="panel-aromaticos" aria-hidden="true">
+      <div class="section-title"><h2>Productos Aromáticos</h2></div>
+      <div class="productos">
+        <div class="prod-item">
+          <h4>Vela Aromática</h4>
+          <p>Aroma vainilla y sándalo, duración 40h aprox.</p>
+          <div><span class="precio">$6.500</span> <button class="btn" onclick="agregarAlCarrito('Vela Aromática',6500,'placeholder')">Agregar</button></div>
+        </div>
+        <div class="prod-item">
+          <h4>Pack Sahumerios</h4>
+          <p>Variedad de aromas para purificar espacios.</p>
+          <div><span class="precio">$2.800</span> <button class="btn" onclick="agregarAlCarrito('Pack Sahumerios',2800,'placeholder')">Agregar</button></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel" id="panel-lookbook"><div class="section-title"><h2>Lookbook</h2></div><p style="padding:12px 16px">Próximamente fotografías inspiración y ambientes con nuestros productos.</p></article>
+    <article class="panel" id="panel-promos"><div class="section-title"><h2>Promos</h2></div><p style="padding:12px 16px">Promociones y combos especiales se anunciarán aquí.</p></article>
+
+  </main>
+
+  <!-- CARRITO DERECHO -->
+  <aside id="carrito" aria-hidden="true">
+    <span class="close" onclick="cerrarCarrito()">×</span>
+    <h3>🛒 Tu pedido</h3>
     <div id="lista-carrito"></div>
-    <p id="total">Total: $0</p>
-    <button class="btn" onclick="finalizarCompra()">Finalizar compra</button>
-  </div>
+    <p style="margin-top:14px; font-weight:800">Total: <span id="total">$0</span></p>
+    <div style="margin-top:12px">
+      <button class="btn" onclick="finalizarCompra()">Finalizar compra por WhatsApp</button>
+    </div>
+  </aside>
 
   <footer>
-    <p>📍 Av. Corrientes 4927 - CABA</p>
-    <p>📞 WhatsApp: <a href="https://wa.me/541127186865" style="color:white;">11 2718 6865</a></p>
-    <p>© 2025 Gasty Store</p>
+    <p>📍 Av. Corrientes 4927 - CABA | © 2025 Gasty Store</p>
+    <p>📞 <a href="https://wa.me/541127186865" style="color:white; text-decoration:underline">11 2718 6865</a></p>
   </footer>
 
-  <script>
-    let carrito = [];
-    let total = 0;
+<script>
+/* ---------- datos útiles ---------- */
+/* placeholder imagen data-url (SVG pequeño) */
+const PLACEHOLDER = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="#f3f3f3"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#ccc" font-size="14">Imagen</text></svg>'
+);
 
-    // Sidebar
-    function abrirMenu(){ document.getElementById("sidebar").style.width = "250px"; }
-    function cerrarMenu(){ document.getElementById("sidebar").style.width = "0"; }
+/* ---------- Sidebar open/close ---------- */
+function abrirMenu(){ document.getElementById('sidebar').style.width = '300px'; }
+function cerrarMenu(){ document.getElementById('sidebar').style.width = '0'; }
 
-    // Carrito
-    function abrirCarrito(){ document.getElementById("carrito").style.width = "320px"; }
-    function cerrarCarrito(){ document.getElementById("carrito").style.width = "0"; }
+/* ---------- Carrito open/close ---------- */
+function abrirCarrito(){ document.getElementById('carrito').style.width = '360px'; updateCartCount(); }
+function cerrarCarrito(){ document.getElementById('carrito').style.width = '0'; }
 
-    // Toggle secciones
-    function togglePanel(id){
-      const panel = document.getElementById(id);
-      panel.style.display = (panel.style.display === "block") ? "none" : "block";
-    }
+/* ---------- Entrada a tienda desde portada ---------- */
+function entrarTienda(){
+  // ocultar overlay para permitir ver y navegar la página
+  document.getElementById('overlay').style.display = 'none';
+  // abrir el panel de hogar por defecto y scrollear
+  togglePanel('panel-hogar', true);
+  setTimeout(()=> window.scrollTo({top: document.getElementById('main-content').offsetTop, behavior:'smooth'}), 200);
+}
 
-    // Carrito funciones
-    function agregarAlCarrito(producto, precio, imagen){
-      carrito.push({producto, precio, imagen});
-      total += precio;
-      actualizarCarrito();
-    }
-    function actualizarCarrito(){
-      const lista = document.getElementById('lista-carrito');
-      lista.innerHTML = '';
-      carrito.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.classList.add("carrito-item");
-        div.innerHTML = `<img src="${item.imagen}"><span>${item.producto} - $${item.precio}</span>
-                         <span class="remove-btn" onclick="eliminarDelCarrito(${index})">❌</span>`;
-        lista.appendChild(div);
-      });
-      document.getElementById('total').textContent = 'Total: $' + total;
-    }
-    function eliminarDelCarrito(index){
-      total -= carrito[index].precio;
-      carrito.splice(index,1);
-      actualizarCarrito();
-    }
-    function finalizarCompra(){
-      if(carrito.length===0){ alert('El carrito está vacío'); return; }
-      let mensaje = 'Hola! Quiero comprar:%0A';
-      carrito.forEach(item => { mensaje += `- ${item.producto} ($${item.precio})%0A`; });
-      mensaje += `Total: $${total}`;
-      window.open(`https://wa.me/541127186865?text=${mensaje}`, '_blank');
-    }
-  </script>
+/* ---------- PANELES (toggle con animación de max-height) ---------- */
+function togglePanel(id, openIfClosed = false){
+  const panel = document.getElementById(id);
+  if(!panel) return;
+  const isOpen = panel.classList.contains('open');
+  if(isOpen){
+    // cerrar
+    panel.style.maxHeight = panel.scrollHeight + 'px'; // for smooth transition start
+    requestAnimationFrame(()=> {
+      panel.style.maxHeight = '0';
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden','true');
+    });
+  } else {
+    // abrir (si queremos que se cierre el resto, podemos hacerlo aquí)
+    // opcional: cerrar otros panels para que no estén todos abiertos
+    document.querySelectorAll('.panel.open').forEach(p => {
+      p.style.maxHeight = p.scrollHeight + 'px';
+      requestAnimationFrame(()=> { p.style.maxHeight = '0'; p.classList.remove('open'); p.setAttribute('aria-hidden','true'); });
+    });
+
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden','false');
+    // set maxHeight to scrollHeight for animation
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    // scrollear a panel
+    setTimeout(()=> panel.scrollIntoView({behavior:'smooth', block:'start'}), 240);
+  }
+}
+
+/* ---------- CARRITO (foto + nombre + precio + quitar) ---------- */
+let carrito = [];
+let total = 0;
+
+function agregarAlCarrito(producto, precio, imagen){
+  // imagen: nombre de archivo en repo raíz o 'placeholder'
+  const imgSrc = (imagen && imagen !== 'placeholder') ? imagen : PLACEHOLDER;
+  carrito.push({ producto, precio: Number(precio), imagen: imgSrc });
+  total += Number(precio);
+  actualizarCarrito();
+  abrirCarrito();
+}
+
+function actualizarCarrito(){
+  const cont = document.getElementById('lista-carrito');
+  cont.innerHTML = '';
+  carrito.forEach((it, idx) => {
+    const div = document.createElement('div');
+    div.className = 'carrito-item';
+    const img = document.createElement('img'); img.src = it.imagen;
+    const meta = document.createElement('div'); meta.className = 'meta';
+    meta.innerHTML = `<strong>${it.producto}</strong><span>$${it.precio.toLocaleString()}</span>`;
+    const remove = document.createElement('div'); remove.className = 'remove-btn'; remove.innerHTML = '❌';
+    remove.onclick = ()=> eliminarDelCarrito(idx);
+    div.appendChild(img); div.appendChild(meta); div.appendChild(remove);
+    cont.appendChild(div);
+  });
+  document.getElementById('total').textContent = '$' + total.toLocaleString();
+  updateCartCount();
+}
+
+function eliminarDelCarrito(index){
+  if(index<0 || index>=carrito.length) return;
+  total -= carrito[index].precio;
+  carrito.splice(index,1);
+  actualizarCarrito();
+}
+
+function updateCartCount(){
+  document.getElementById('cart-count').textContent = carrito.length;
+}
+
+/* ---------- Finalizar compra (abre WhatsApp con resumen) ---------- */
+function finalizarCompra(){
+  if(carrito.length===0){ alert('El carrito está vacío'); return; }
+  let mensaje = 'Hola! Quiero comprar:%0A';
+  carrito.forEach(it => {
+    mensaje += `- ${it.producto} ($${it.precio.toLocaleString()})%0A`;
+  });
+  mensaje += `Total: $${total.toLocaleString()}`;
+  // Abrir whatsapp
+  window.open(`https://wa.me/541127186865?text=${mensaje}`, '_blank');
+}
+
+/* ---------- al cargar la página: aseguramos que todos los panels estén cerrados ---------- */
+document.addEventListener('DOMContentLoaded', ()=> {
+  document.querySelectorAll('.panel').forEach(p => {
+    p.style.maxHeight = '0';
+    p.classList.remove('open');
+    p.setAttribute('aria-hidden','true');
+  });
+  // si quieres que la portada desaparezca automáticamente despues de X segundos, podes activar esto:
+  // setTimeout(()=> document.getElementById('overlay').style.display='none', 4000);
+});
+</script>
 </body>
 </html>
