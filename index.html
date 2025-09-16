@@ -17,21 +17,49 @@
       padding: 15px;
       text-align: center;
     }
-    nav {
-      background: #FF69B4; /* Rosa */
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      padding: 10px;
-      flex-wrap: wrap;
-    }
-    nav a {
+    /* Botón menú lateral */
+    #menu-btn {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      background: #FF69B4;
       color: white;
-      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
       font-weight: bold;
+      z-index: 1001;
     }
-    nav a:hover {
-      text-decoration: underline;
+    /* Sidebar */
+    #sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      background-color: #87CEEB;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+    #sidebar a {
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+    }
+    #sidebar a:hover {
+      background-color: #FF69B4;
+    }
+    #close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 25px;
+      cursor: pointer;
+      color: white;
     }
     section {
       padding: 30px;
@@ -84,16 +112,30 @@
     .btn:hover {
       background: #4682B4;
     }
+    /* Carrito desplegable */
     #carrito {
+      height: 100%;
+      width: 0;
       position: fixed;
-      right: 20px;
-      bottom: 20px;
+      top: 0;
+      right: 0;
       background: white;
-      border: 2px solid #FF69B4;
-      border-radius: 10px;
-      padding: 15px;
-      width: 280px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border-left: 3px solid #FF69B4;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding: 20px;
+      z-index: 1002;
+    }
+    #carrito h3 {
+      color: #4682B4;
+    }
+    #close-carrito {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 25px;
+      cursor: pointer;
+      color: #FF69B4;
     }
     footer {
       background-color: #87CEEB;
@@ -110,14 +152,20 @@
     <p>Decoración, Estilo y Tecnología para tu día a día</p>
   </header>
 
-  <nav>
+  <!-- Botón menú -->
+  <div id="menu-btn" onclick="abrirMenu()">☰ Menú</div>
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <span id="close-btn" onclick="cerrarMenu()">×</span>
     <a href="#telefonos">Accesorios de Teléfonos</a>
     <a href="#hogar">Accesorios (Hogar)</a>
     <a href="#cosmeticos">Cosméticos</a>
     <a href="#aromaticos">Productos Aromáticos</a>
     <a href="#lookbook">Lookbook</a>
     <a href="#promos">Promos</a>
-  </nav>
+    <a href="#" onclick="abrirCarrito()">🛒 Carrito</a>
+  </div>
 
   <!-- SECCIONES -->
   <section id="telefonos">
@@ -141,55 +189,54 @@
   <section id="hogar">
     <h2>Accesorios Hogar</h2>
     <div class="productos">
+      <!-- 6 LÁMPARAS ORIGINALES -->
       <div class="card">
-        <img src="lampara-ejemplo.jpg" alt="Lámpara">
-        <h3>Lámpara Deco</h3>
+        <img src="lampara-2-pisos.jpg" alt="Lámpara 2 pisos">
+        <h3>Lámpara Mandarina 2 Pisos</h3>
         <p class="precio">$32.000</p>
-        <button class="btn" onclick="agregarAlCarrito('Lámpara Deco', 32000)">Agregar al carrito</button>
+        <button class="btn" onclick="agregarAlCarrito('Lámpara Mandarina 2 Pisos', 32000)">Agregar al carrito</button>
       </div>
       <div class="card">
-        <img src="organizador-ejemplo.jpg" alt="Organizador">
-        <h3>Organizador Multiuso</h3>
-        <p class="precio">$4.500</p>
-        <button class="btn" onclick="agregarAlCarrito('Organizador Multiuso', 4500)">Agregar al carrito</button>
+        <img src="lampara-base-blanca.jpg" alt="Lámpara base blanca">
+        <h3>Lámpara Base Blanca</h3>
+        <p class="precio">$32.000</p>
+        <button class="btn" onclick="agregarAlCarrito('Lámpara Base Blanca', 32000)">Agregar al carrito</button>
+      </div>
+      <div class="card">
+        <img src="lampara-base-madera.jpg" alt="Lámpara base madera">
+        <h3>Lámpara Base Madera</h3>
+        <p class="precio">$34.000</p>
+        <button class="btn" onclick="agregarAlCarrito('Lámpara Base Madera', 34000)">Agregar al carrito</button>
+      </div>
+      <div class="card">
+        <img src="lampara-hongo-base-redonda.jpg" alt="Lámpara hongo base redonda">
+        <h3>Lámpara Hongo Base Redonda</h3>
+        <p class="precio">$32.000</p>
+        <button class="btn" onclick="agregarAlCarrito('Lámpara Hongo Base Redonda', 32000)">Agregar al carrito</button>
+      </div>
+      <div class="card">
+        <img src="lampara-meduza.jpg" alt="Lámpara meduza">
+        <h3>Lámpara Meduza</h3>
+        <p class="precio">$32.000</p>
+        <button class="btn" onclick="agregarAlCarrito('Lámpara Meduza', 32000)">Agregar al carrito</button>
+      </div>
+      <div class="card">
+        <img src="lampara-redonda-base-madera.jpg" alt="Lámpara redonda base madera">
+        <h3>Lámpara Redonda Base Madera</h3>
+        <p class="precio">$34.000</p>
+        <button class="btn" onclick="agregarAlCarrito('Lámpara Redonda Base Madera', 34000)">Agregar al carrito</button>
       </div>
     </div>
   </section>
 
   <section id="cosmeticos">
     <h2>Cosméticos</h2>
-    <div class="productos">
-      <div class="card">
-        <img src="base-ejemplo.jpg" alt="Base de maquillaje">
-        <h3>Base Líquida</h3>
-        <p class="precio">$9.800</p>
-        <button class="btn" onclick="agregarAlCarrito('Base Líquida', 9800)">Agregar al carrito</button>
-      </div>
-      <div class="card">
-        <img src="labial-ejemplo.jpg" alt="Labial">
-        <h3>Labial Mate</h3>
-        <p class="precio">$4.200</p>
-        <button class="btn" onclick="agregarAlCarrito('Labial Mate', 4200)">Agregar al carrito</button>
-      </div>
-    </div>
+    <p>(Próximamente más productos)</p>
   </section>
 
   <section id="aromaticos">
     <h2>Productos Aromáticos</h2>
-    <div class="productos">
-      <div class="card">
-        <img src="vela-ejemplo.jpg" alt="Vela aromática">
-        <h3>Vela Aromática</h3>
-        <p class="precio">$6.500</p>
-        <button class="btn" onclick="agregarAlCarrito('Vela Aromática', 6500)">Agregar al carrito</button>
-      </div>
-      <div class="card">
-        <img src="sahumerio-ejemplo.jpg" alt="Sahumerios">
-        <h3>Pack Sahumerios</h3>
-        <p class="precio">$2.800</p>
-        <button class="btn" onclick="agregarAlCarrito('Pack Sahumerios', 2800)">Agregar al carrito</button>
-      </div>
-    </div>
+    <p>(Próximamente más productos)</p>
   </section>
 
   <section id="lookbook">
@@ -204,7 +251,8 @@
 
   <!-- Carrito -->
   <div id="carrito">
-    <h3>🛒 Carrito</h3>
+    <span id="close-carrito" onclick="cerrarCarrito()">×</span>
+    <h3>🛒 Tu Carrito</h3>
     <ul id="lista-carrito"></ul>
     <p id="total">Total: $0</p>
     <button class="btn" onclick="finalizarCompra()">Finalizar compra</button>
@@ -220,12 +268,24 @@
     let carrito = [];
     let total = 0;
 
+    function abrirMenu() {
+      document.getElementById("sidebar").style.width = "250px";
+    }
+    function cerrarMenu() {
+      document.getElementById("sidebar").style.width = "0";
+    }
+    function abrirCarrito() {
+      document.getElementById("carrito").style.width = "300px";
+    }
+    function cerrarCarrito() {
+      document.getElementById("carrito").style.width = "0";
+    }
+
     function agregarAlCarrito(producto, precio) {
       carrito.push({producto, precio});
       total += precio;
       actualizarCarrito();
     }
-
     function actualizarCarrito() {
       const lista = document.getElementById('lista-carrito');
       lista.innerHTML = '';
@@ -236,7 +296,6 @@
       });
       document.getElementById('total').textContent = 'Total: $' + total;
     }
-
     function finalizarCompra() {
       if (carrito.length === 0) {
         alert('El carrito está vacío');
