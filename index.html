@@ -20,7 +20,7 @@
     /* Botón menú lateral */
     #menu-btn {
       position: fixed;
-      right: 20px;
+      left: 20px;
       top: 20px;
       background: #FF69B4;
       color: white;
@@ -30,13 +30,13 @@
       font-weight: bold;
       z-index: 1001;
     }
-    /* Sidebar */
+    /* Sidebar izquierdo */
     #sidebar {
       height: 100%;
       width: 0;
       position: fixed;
       top: 0;
-      right: 0;
+      left: 0;
       background-color: #87CEEB;
       overflow-x: hidden;
       transition: 0.3s;
@@ -61,8 +61,26 @@
       cursor: pointer;
       color: white;
     }
-    section {
-      padding: 30px;
+    /* Secciones desplegables */
+    .accordion {
+      background-color: #FF69B4;
+      color: white;
+      cursor: pointer;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      font-size: 18px;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+    .accordion:hover {
+      background-color: #4682B4;
+    }
+    .panel {
+      display: none;
+      padding: 20px;
+      background: #fff;
     }
     h2 {
       color: #4682B4;
@@ -112,7 +130,7 @@
     .btn:hover {
       background: #4682B4;
     }
-    /* Carrito desplegable */
+    /* Carrito lateral derecho */
     #carrito {
       height: 100%;
       width: 0;
@@ -144,6 +162,11 @@
       padding: 15px;
       margin-top: 40px;
     }
+    .remove-btn {
+      color: red;
+      cursor: pointer;
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
@@ -155,21 +178,21 @@
   <!-- Botón menú -->
   <div id="menu-btn" onclick="abrirMenu()">☰ Menú</div>
 
-  <!-- Sidebar -->
+  <!-- Sidebar izquierdo -->
   <div id="sidebar">
     <span id="close-btn" onclick="cerrarMenu()">×</span>
-    <a href="#telefonos">Accesorios de Teléfonos</a>
-    <a href="#hogar">Accesorios (Hogar)</a>
-    <a href="#cosmeticos">Cosméticos</a>
-    <a href="#aromaticos">Productos Aromáticos</a>
-    <a href="#lookbook">Lookbook</a>
-    <a href="#promos">Promos</a>
+    <a href="#" onclick="scrollToSection('telefonos')">Accesorios de Teléfonos</a>
+    <a href="#" onclick="scrollToSection('hogar')">Accesorios (Hogar)</a>
+    <a href="#" onclick="scrollToSection('cosmeticos')">Cosméticos</a>
+    <a href="#" onclick="scrollToSection('aromaticos')">Productos Aromáticos</a>
+    <a href="#" onclick="scrollToSection('lookbook')">Lookbook</a>
+    <a href="#" onclick="scrollToSection('promos')">Promos</a>
     <a href="#" onclick="abrirCarrito()">🛒 Carrito</a>
   </div>
 
-  <!-- SECCIONES -->
-  <section id="telefonos">
-    <h2>Accesorios de Teléfonos</h2>
+  <!-- Secciones desplegables -->
+  <button class="accordion">Accesorios de Teléfonos</button>
+  <div class="panel" id="telefonos">
     <div class="productos">
       <div class="card">
         <img src="funda-ejemplo.jpg" alt="Funda Celular">
@@ -184,70 +207,40 @@
         <button class="btn" onclick="agregarAlCarrito('Cargador Rápido', 7500)">Agregar al carrito</button>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section id="hogar">
-    <h2>Accesorios Hogar</h2>
+  <button class="accordion">Accesorios (Hogar)</button>
+  <div class="panel" id="hogar">
     <div class="productos">
-      <!-- 6 LÁMPARAS ORIGINALES -->
-      <div class="card">
-        <img src="lampara-2-pisos.jpg" alt="Lámpara 2 pisos">
-        <h3>Lámpara Mandarina 2 Pisos</h3>
-        <p class="precio">$32.000</p>
-        <button class="btn" onclick="agregarAlCarrito('Lámpara Mandarina 2 Pisos', 32000)">Agregar al carrito</button>
-      </div>
-      <div class="card">
-        <img src="lampara-base-blanca.jpg" alt="Lámpara base blanca">
-        <h3>Lámpara Base Blanca</h3>
-        <p class="precio">$32.000</p>
-        <button class="btn" onclick="agregarAlCarrito('Lámpara Base Blanca', 32000)">Agregar al carrito</button>
-      </div>
-      <div class="card">
-        <img src="lampara-base-madera.jpg" alt="Lámpara base madera">
-        <h3>Lámpara Base Madera</h3>
-        <p class="precio">$34.000</p>
-        <button class="btn" onclick="agregarAlCarrito('Lámpara Base Madera', 34000)">Agregar al carrito</button>
-      </div>
-      <div class="card">
-        <img src="lampara-hongo-base-redonda.jpg" alt="Lámpara hongo base redonda">
-        <h3>Lámpara Hongo Base Redonda</h3>
-        <p class="precio">$32.000</p>
-        <button class="btn" onclick="agregarAlCarrito('Lámpara Hongo Base Redonda', 32000)">Agregar al carrito</button>
-      </div>
-      <div class="card">
-        <img src="lampara-meduza.jpg" alt="Lámpara meduza">
-        <h3>Lámpara Meduza</h3>
-        <p class="precio">$32.000</p>
-        <button class="btn" onclick="agregarAlCarrito('Lámpara Meduza', 32000)">Agregar al carrito</button>
-      </div>
-      <div class="card">
-        <img src="lampara-redonda-base-madera.jpg" alt="Lámpara redonda base madera">
-        <h3>Lámpara Redonda Base Madera</h3>
-        <p class="precio">$34.000</p>
-        <button class="btn" onclick="agregarAlCarrito('Lámpara Redonda Base Madera', 34000)">Agregar al carrito</button>
-      </div>
+      <!-- 6 lámparas -->
+      <div class="card"><img src="lampara-2-pisos.jpg" alt="Lámpara 2 pisos"><h3>Lámpara Mandarina 2 Pisos</h3><p class="precio">$32.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Mandarina 2 Pisos', 32000)">Agregar al carrito</button></div>
+      <div class="card"><img src="lampara-base-blanca.jpg" alt="Lámpara base blanca"><h3>Lámpara Base Blanca</h3><p class="precio">$32.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Base Blanca', 32000)">Agregar al carrito</button></div>
+      <div class="card"><img src="lampara-base-madera.jpg" alt="Lámpara base madera"><h3>Lámpara Base Madera</h3><p class="precio">$34.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Base Madera', 34000)">Agregar al carrito</button></div>
+      <div class="card"><img src="lampara-hongo-base-redonda.jpg" alt="Lámpara hongo base redonda"><h3>Lámpara Hongo Base Redonda</h3><p class="precio">$32.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Hongo Base Redonda', 32000)">Agregar al carrito</button></div>
+      <div class="card"><img src="lampara-meduza.jpg" alt="Lámpara meduza"><h3>Lámpara Meduza</h3><p class="precio">$32.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Meduza', 32000)">Agregar al carrito</button></div>
+      <div class="card"><img src="lampara-redonda-base-madera.jpg" alt="Lámpara redonda base madera"><h3>Lámpara Redonda Base Madera</h3><p class="precio">$34.000</p><button class="btn" onclick="agregarAlCarrito('Lámpara Redonda Base Madera', 34000)">Agregar al carrito</button></div>
     </div>
-  </section>
+  </div>
 
-  <section id="cosmeticos">
-    <h2>Cosméticos</h2>
+  <button class="accordion">Cosméticos</button>
+  <div class="panel" id="cosmeticos">
     <p>(Próximamente más productos)</p>
-  </section>
+  </div>
 
-  <section id="aromaticos">
-    <h2>Productos Aromáticos</h2>
+  <button class="accordion">Productos Aromáticos</button>
+  <div class="panel" id="aromaticos">
     <p>(Próximamente más productos)</p>
-  </section>
+  </div>
 
-  <section id="lookbook">
-    <h2>Lookbook</h2>
+  <button class="accordion">Lookbook</button>
+  <div class="panel" id="lookbook">
     <p>Próximamente nuestras fotos e inspiración ✨</p>
-  </section>
+  </div>
 
-  <section id="promos">
-    <h2>Promos</h2>
+  <button class="accordion">Promos</button>
+  <div class="panel" id="promos">
     <p>Aquí irán las mejores promociones de la tienda 🎁</p>
-  </section>
+  </div>
 
   <!-- Carrito -->
   <div id="carrito">
@@ -268,19 +261,15 @@
     let carrito = [];
     let total = 0;
 
-    function abrirMenu() {
-      document.getElementById("sidebar").style.width = "250px";
-    }
-    function cerrarMenu() {
-      document.getElementById("sidebar").style.width = "0";
-    }
-    function abrirCarrito() {
-      document.getElementById("carrito").style.width = "300px";
-    }
-    function cerrarCarrito() {
-      document.getElementById("carrito").style.width = "0";
-    }
+    // Sidebar
+    function abrirMenu() { document.getElementById("sidebar").style.width = "250px"; }
+    function cerrarMenu() { document.getElementById("sidebar").style.width = "0"; }
 
+    // Carrito
+    function abrirCarrito() { document.getElementById("carrito").style.width = "300px"; }
+    function cerrarCarrito() { document.getElementById("carrito").style.width = "0"; }
+
+    // Carrito funciones
     function agregarAlCarrito(producto, precio) {
       carrito.push({producto, precio});
       total += precio;
@@ -289,12 +278,22 @@
     function actualizarCarrito() {
       const lista = document.getElementById('lista-carrito');
       lista.innerHTML = '';
-      carrito.forEach(item => {
+      carrito.forEach((item, index) => {
         const li = document.createElement('li');
         li.textContent = `${item.producto} - $${item.precio}`;
+        const removeBtn = document.createElement('span');
+        removeBtn.textContent = " ❌";
+        removeBtn.classList.add("remove-btn");
+        removeBtn.onclick = () => eliminarDelCarrito(index);
+        li.appendChild(removeBtn);
         lista.appendChild(li);
       });
       document.getElementById('total').textContent = 'Total: $' + total;
+    }
+    function eliminarDelCarrito(index) {
+      total -= carrito[index].precio;
+      carrito.splice(index, 1);
+      actualizarCarrito();
     }
     function finalizarCompra() {
       if (carrito.length === 0) {
@@ -307,6 +306,16 @@
       });
       mensaje += `Total: $${total}`;
       window.open(`https://wa.me/541127186865?text=${mensaje}`, '_blank');
+    }
+
+    // Acordeón secciones
+    const acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        const panel = this.nextElementSibling;
+        panel.style.display = (panel.style.display === "block") ? "none" : "block";
+      });
     }
   </script>
 </body>
